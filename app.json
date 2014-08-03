@@ -1,0 +1,20 @@
+{
+  "name": "Grabshot",
+  "description": "Mini API to create screenshots of websites and call back with the image data",
+  "keywords": [
+    "screenshot",
+    "sinatra",
+    "phantomjs"
+  ],
+  "website": "https://grabshot.herokuapp.com/",
+  "repository": "https://github.com/bjeanes/grabshot",
+  "addons": ["heroku-postgresql"],
+  "scripts": {
+    "postdeploy": "ruby -rqueue_classic -e QC::Setup.create"
+  },
+  "env": {
+    "BUILDPACK_URL": "https://github.com/ddollar/heroku-buildpack-multi.git",
+    "QC_FORK_WORKER": "true",
+    "WORKER_COUNT": "2"
+  }
+}
