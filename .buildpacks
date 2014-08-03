@@ -1,2 +1,3 @@
 git://github.com/stomita/heroku-buildpack-phantomjs.git
 git://github.com/heroku/heroku-buildpack-ruby.git
+git://github.com/johnbeynon/heroku-buildpack-wget.git
