@@ -2,6 +2,7 @@ require 'oily_png'
 require 'base64'
 require 'open-uri'
 require 'tempfile'
+require 'fileutils'
 include ChunkyPNG::Color
 
 class ImageDiffer
@@ -14,6 +15,7 @@ class ImageDiffer
 	    callback = params["callback"]
 	    diff_found = true
 	    Tempfile.open('output_file') do |output_file|
+	    	puts "Output tempfile opened at #{output_file.path}"
 		    Tempfile.open('file_a') do |file_a|
 				puts "Tempfile opened at #{file_a.path}"
 				`wget #{url_a} --output-document #{file_a.path}`
@@ -23,12 +25,10 @@ class ImageDiffer
 					compare_options = "-compose difference"
 				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
 				    compare_output = %x[#{cmd}]
-				    md5_a_res = %x["md5sum #{file_a.path}"]
-				    md5_b_res = %x["md5sum #{file_b.path}"]
-				    diff_found = false if md5_a_res == md5_b_res
+				    diff_found = !FileUtils.compare_file(file_a.path, file_b.path)
 				end
 			end
-			outfile_contents = open(output_file) {|f| f.read}
+			outfile_contents = open(output_file.path) {|f| f.read}
 	    	encode_and_send_diff(outfile_contents, diff_found, callback)
 	    end
 	    return :success
