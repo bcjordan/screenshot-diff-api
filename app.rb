@@ -29,16 +29,21 @@ post '/diff' do
     url_a = params[:url_a]
     url_b = params[:url_b]
     callback = params[:callback]
+    puts 'Opening files'
     contents_a  = open(url_a) {|f| f.read}
     contents_b  = open(url_b) {|f| f.read}
+    puts 'Opened files, turning into PNG objects'
     image_a = ChunkyPNG::Image.from_blob(contents_a)
     image_b = ChunkyPNG::Image.from_blob(contents_b)
+    puts 'Diffing files'
     diff = diff_images([image_a, image_b])
+    puts 'Encoding files'
     encoded_diff = Base64.encode64(diff)
     params = {}
     params.merge!(
         "imageData" => encoded_diff,
         "callback" => callback)
+    puts 'Sending response'
     image_diff_respond(:success, params)
 end
 

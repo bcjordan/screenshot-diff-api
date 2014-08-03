@@ -2,7 +2,7 @@ require 'chunky_png'
 include ChunkyPNG::Color
 
 def diff_images(images)
-	
+	puts 'Diffing images'
 	images.first.height.times do |y|
 		images.first.row(y).each_with_index do |pixel, x|
 			images.last[x,y] = rgb(
