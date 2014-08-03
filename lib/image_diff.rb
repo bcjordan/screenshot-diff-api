@@ -23,8 +23,8 @@ class ImageDiffer
 					compare_options = "-compose difference"
 				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
 				    compare_output = %x[#{cmd}]
-				    md5_a_res = %x["md5sum #{file_a}"]
-				    md5_b_res = %x["md5sum #{file_b}"]
+				    md5_a_res = %x["md5sum #{file_a.path}"]
+				    md5_b_res = %x["md5sum #{file_b.path}"]
 				    diff_found = false if md5_a_res == md5_b_res
 				end
 			end
