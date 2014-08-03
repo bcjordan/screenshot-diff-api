@@ -25,6 +25,10 @@ class ImageDiffer
 					compare_options = "-compose difference"
 				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
 				    compare_output = %x[#{cmd}]
+				    puts "Output from compare: #{compare_output}"
+				    if compare_output.include? "image widths or heights differ"
+				    	return :failure
+				    end
 				    diff_found = !FileUtils.compare_file(file_a.path, file_b.path)
 				end
 			end
@@ -40,6 +44,7 @@ class ImageDiffer
 	def self.encode_and_send_diff(diff, diff_found, callback)
 		puts 'Encoding files'
 	    puts 'Found non-zero diff' if diff_found
+	    puts 'No diff detected' if !diff_found
 	    encoded_diff = Base64.encode64(diff)
 	    params = {}
 	    params.merge!(
