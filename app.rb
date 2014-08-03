@@ -25,7 +25,6 @@ get '/' do
 end
 
 post '/diff' do
-  begin
     puts params
     url_a = params[:url_a]
     url_b = params[:url_b]
