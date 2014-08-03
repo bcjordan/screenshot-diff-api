@@ -8,6 +8,7 @@ require 'queue_classic'
 require 'chunky_png'
 require 'image_diff'
 require 'base64'
+require 'open-uri'
 
 configure :development do
   require 'rack/reloader'
