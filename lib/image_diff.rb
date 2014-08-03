@@ -27,6 +27,7 @@ class ImageDiffer
 	        "callback" => callback)
 	    puts 'Sending response'
 	    image_diff_respond(:success, params)
+	    puts 'Request complete!'
 	rescue => error
 		puts error
 	end
