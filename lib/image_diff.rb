@@ -24,7 +24,7 @@ class ImageDiffer
 					puts "wget #{url_b} --output-document #{file_b.path}"
 					`wget #{url_b} --output-document #{file_b.path}`
 					puts "Tempfile opened at #{file_b.path}"
-					compare_options = "-compose difference"
+					compare_options = ""
 				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
 				    compare_output = %x[#{cmd}]
 				    puts "Output from compare: #{compare_output}"
