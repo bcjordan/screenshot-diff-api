@@ -21,7 +21,8 @@ class ImageDiffer
 	    diff_info = diff_images([image_a, image_b])
 	    diff = diff_info[:image];
 	    diff_found = diff_info[:diff]
-	    puts 'Encoding files, diff found = ' + diff_found
+	    puts 'Encoding files'
+	    puts 'Found non-zero diff' if diff_found
 	    encoded_diff = Base64.encode64(diff)
 	    params = {}
 	    params.merge!(
