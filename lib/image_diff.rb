@@ -45,7 +45,7 @@ class ImageDiffer
 					g(pixel) + g(images.last[x,y]) - 2 * [g(pixel), g(images.last[x,y])].min,
 					b(pixel) + b(images.last[x,y]) - 2 * [b(pixel), b(images.last[x,y])].min
 				)
-				if r(images.last[x,y]) > 0 || g(images.last[x,y]) > 0 || b(images.last[x,y]) > 0)
+				if r(images.last[x,y]) > 0 || g(images.last[x,y]) > 0 || b(images.last[x,y]) > 0
 					diff_found = true
 				end
 			end
