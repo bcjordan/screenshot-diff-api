@@ -27,7 +27,9 @@ def image_diff_respond(status, params = {})
 	headers               = {'Content-Type' => 'application/json'}
 	request               = Net::HTTP::Post.new(uri.request_uri, headers)
 	request["User-Agent"] = "grabbalicious"
+	puts 'About to dump json'
 	request.body          = MultiJson.dump(params)
+	puts 'Done dumping json'
 	http.request(request)
 rescue => e
 	log_exception e
