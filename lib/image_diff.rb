@@ -29,8 +29,8 @@ class ImageDiffer
 				end
 			end
 			outfile_contents = open(output_file) {|f| f.read}
+	    	encode_and_send_diff(outfile_contents, diff_found, callback)
 	    end
-	    encode_and_send_diff(outfile_contents, diff_found, callback)
 	    return :success
 	rescue => error
 		puts "Error diffing images: #{error}"
