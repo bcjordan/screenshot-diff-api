@@ -35,7 +35,7 @@ post '/diff' do
   encoded_diff = Base64.encode64(diff)
   params = {}
   params.merge!(
-      "imageData" => encoded_diff
+      "imageData" => encoded_diff,
       "callback" => callback)
   image_diff_respond(:success, params)
 end
