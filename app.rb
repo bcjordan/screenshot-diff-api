@@ -24,6 +24,7 @@ get '/' do
 end
 
 post '/diff' do
+  puts params
   url_a = params[:url_a]
   url_b = params[:url_b]
   callback = params[:callback]
