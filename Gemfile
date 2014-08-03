@@ -9,7 +9,7 @@ gem 'slim'
 gem "puma", "~> 2.0.0.b6"
 gem 'queue_classic'
 gem 'pry'
-gem 'chunky_png'
+gem 'oily_png'
 
 group :development do
   gem 'foreman', require: false

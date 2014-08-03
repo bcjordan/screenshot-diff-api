@@ -5,7 +5,7 @@ require 'slim'
 
 require "screenshotter"
 require 'queue_classic'
-require 'chunky_png'
+require 'oily_png'
 require 'image_diff'
 require 'base64'
 require 'open-uri'
