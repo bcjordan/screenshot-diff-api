@@ -24,10 +24,10 @@ class ImageDiffer
 					puts "wget #{url_b} --output-document #{file_b.path}"
 					`wget #{url_b} --output-document #{file_b.path}`
 					
-					width_a = `identify -format '%w' #{file_a.path}`
-					height_a = `identify -format '%h' #{file_a.path}`
-					width_b = `identify -format '%w' #{file_b.path}`
-					height_b = `identify -format '%h' #{file_b.path}`
+					width_a = `identify -format '%w' #{file_a.path}`.strip
+					height_a = `identify -format '%h' #{file_a.path}`.strip
+					width_b = `identify -format '%w' #{file_b.path}`.strip
+					height_b = `identify -format '%h' #{file_b.path}`.strip
 
 					if height_a != height_b || width_a != width_b
 						puts "convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}"
