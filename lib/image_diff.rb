@@ -23,8 +23,18 @@ class ImageDiffer
 				Tempfile.open('file_b') do |file_b|
 					puts "wget #{url_b} --output-document #{file_b.path}"
 					`wget #{url_b} --output-document #{file_b.path}`
+					
+					width_a = `identify -format '%w' #{file_a.path}`
+					height_a = `identify -format '%h' #{file_a.path}`
+					width_b = `identify -format '%w' #{file_b.path}`
+					height_b = `identify -format '%h' #{file_b.path}`
+
+					if height_a != height_b || width_a != width_b
+						convert_res = `convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}`
+					end
+
 					puts "Tempfile opened at #{file_b.path}"
-					compare_options = ""
+					compare_options = "-dissimilarity-threshold 1"
 				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
 				    compare_output = %x[#{cmd}]
 				    puts "Output from compare: #{compare_output}"
