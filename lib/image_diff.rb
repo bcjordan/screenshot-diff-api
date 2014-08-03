@@ -1,11 +1,56 @@
 require 'oily_png'
 require 'base64'
 require 'open-uri'
+require 'tempfile'
 include ChunkyPNG::Color
 
 class ImageDiffer
-	def self.do_image_diff(params)
-		require 'open-uri'
+
+	def self.do_image_diff_image_magic(params)
+		puts params
+	    url_a = params["url_a"]
+	    url_b = params["url_b"]
+	    callback = params["callback"]
+	    diff_found = true
+	    Tempfile.open('output_file') do |output_file|
+		    Tempfile.open('file_a') do |file_a|
+				puts "Tempfile opened at #{file_a.path}"
+				`wget #{url_a} #{file_a.path}`
+				Tempfile.open('file_b') do |file_b|
+					`wget #{url_b} #{file_b.path}`
+					puts "Tempfile opened at #{file_b.path}"
+					compare_options = "-compose difference"
+				    cmd = "compare #{file_a} #{file_b} #{compare_options} #{output_file}"
+				    compare_output = %x[#{cmd}]
+				    md5_a_res = %x["md5sum #{file_a}"]
+				    md5_b_res = %x["md5sum #{file_b}"]
+				    diff_found = false if md5_a_res == md5_b_res
+				end
+			end
+			outfile_contents = open(output_file) {|f| f.read}
+	    end
+	    encode_and_send_diff(outfile_contents, diff_found, callback)
+	    return :success
+	rescue => error
+		puts "Error diffing images: #{error}"
+		return :failure
+	end
+
+	def self.encode_and_send_diff(diff, diff_found, callback)
+		puts 'Encoding files'
+	    puts 'Found non-zero diff' if diff_found
+	    encoded_diff = Base64.encode64(diff)
+	    params = {}
+	    params.merge!(
+	        "imageData" => encoded_diff,
+	        "diffFound" => diff_found,
+	        "callback" => callback)
+	    puts 'Sending response'
+	    image_diff_respond(:success, params)
+	    puts 'Request complete!'
+	end
+
+	def self.do_image_diff_ruby(params)
 		puts params
 	    url_a = params["url_a"]
 	    url_b = params["url_b"]
@@ -21,24 +66,26 @@ class ImageDiffer
 	    diff_info = diff_images([image_a, image_b])
 	    diff = diff_info[:image];
 	    diff_found = diff_info[:diff]
-	    puts 'Encoding files'
-	    puts 'Found non-zero diff' if diff_found
-	    encoded_diff = Base64.encode64(diff)
-	    params = {}
-	    params.merge!(
-	        "imageData" => encoded_diff,
-	        "diffFound" => diff_found,
-	        "callback" => callback)
-	    puts 'Sending response'
-	    image_diff_respond(:success, params)
-	    puts 'Request complete!'
+	    encode_and_send_diff(diff, diff_found, callback)
+	    return :success
 	rescue => error
 		puts "Error"
 		puts error
+		return :failure
+	end
+
+	def self.do_image_diff(params)
+		success = self.do_image_diff_image_magic(images)
+		if success == :success
+			return
+		else
+			puts "Couldn't diff using compare, using Ruby code instead"
+			self.do_image_diff_ruby(images)
+		end
 	end
 
 	def self.diff_images(images)
-		puts 'Diffing images'
+		puts 'Diffing images directly'
 		diff_found = false
 		images.first.height.times do |y|
 			images.first.row(y).each_with_index do |pixel, x|

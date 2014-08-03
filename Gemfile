@@ -10,6 +10,7 @@ gem "puma", "~> 2.0.0.b6"
 gem 'queue_classic'
 gem 'pry'
 gem 'oily_png'
+gem 'rmagick'
 
 group :development do
   gem 'foreman', require: false
