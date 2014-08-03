@@ -7,9 +7,9 @@ class ImageDiffer
 	def self.do_image_diff(params)
 		require 'open-uri'
 		puts params
-	    url_a = params[:url_a]
-	    url_b = params[:url_b]
-	    callback = params[:callback]
+	    url_a = params["url_a"]
+	    url_b = params["url_b"]
+	    callback = params["callback"]
 	    puts 'Opening file a'
 	    contents_a  = open(url_a) {|f| f.read}
 	    puts 'Opening file b'
