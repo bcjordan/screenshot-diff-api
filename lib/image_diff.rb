@@ -129,3 +129,8 @@ class ImageDiffer
 		end
 	end
 end
+
+def log_exception(e)
+  STDERR.puts "#{e.class}: #{e.message}"
+  STDERR.puts e.backtrace.join("\n")
+end
