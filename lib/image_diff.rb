@@ -18,12 +18,15 @@ class ImageDiffer
 	    image_a = ChunkyPNG::Image.from_blob(contents_a)
 	    image_b = ChunkyPNG::Image.from_blob(contents_b)
 	    puts 'Diffing files'
-	    diff = diff_images([image_a, image_b])
+	    diff_info = diff_images([image_a, image_b])
+	    diff = diff_info[:image];
+	    diff_found = diff_info[:diff]
 	    puts 'Encoding files'
 	    encoded_diff = Base64.encode64(diff)
 	    params = {}
 	    params.merge!(
 	        "imageData" => encoded_diff,
+	        "diffFound" => diff_found,
 	        "callback" => callback)
 	    puts 'Sending response'
 	    image_diff_respond(:success, params)
@@ -34,6 +37,7 @@ class ImageDiffer
 
 	def self.diff_images(images)
 		puts 'Diffing images'
+		diff_found = false
 		images.first.height.times do |y|
 			images.first.row(y).each_with_index do |pixel, x|
 				images.last[x,y] = rgb(
@@ -41,9 +45,12 @@ class ImageDiffer
 					g(pixel) + g(images.last[x,y]) - 2 * [g(pixel), g(images.last[x,y])].min,
 					b(pixel) + b(images.last[x,y]) - 2 * [b(pixel), b(images.last[x,y])].min
 				)
+				if r(images.last[x,y]) > 0 || g(images.last[x,y]) > 0 || b(images.last[x,y]) > 0)
+					diff_found = true
+				end
 			end
 		end
-		return images.last.to_blob
+		return {image: images.last.to_blob, diff: diff_found}
 	end
 
 	def self.image_diff_respond(status, params = {})
