@@ -30,6 +30,7 @@ class ImageDiffer
 					height_b = `identify -format '%h' #{file_b.path}`
 
 					if height_a != height_b || width_a != width_b
+						puts "convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}"
 						convert_res = `convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}`
 					end
 
