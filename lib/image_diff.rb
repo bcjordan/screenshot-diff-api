@@ -30,7 +30,9 @@ class ImageDiffer
 					height_b = `identify -format '%h' #{file_b.path}`.strip
 
 					if height_a != height_b || width_a != width_b
-						puts "convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}"
+						puts `identify #{file_a.path}`
+						puts `identify #{file_b.path}`
+						puts "Need to convert file, running: convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}"
 						convert_res = `convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}`
 					end
 
@@ -40,7 +42,7 @@ class ImageDiffer
 				    compare_output = %x[#{cmd}]
 				    puts "Output from compare: #{compare_output}"
 				    if compare_output.include? "image widths or heights differ"
-				    	return :failure
+				    	raise "Images were different sizes, couldn't diff"
 				    end
 				    diff_found = !FileUtils.compare_file(file_a.path, file_b.path)
 				end
