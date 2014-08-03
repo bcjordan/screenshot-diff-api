@@ -33,7 +33,8 @@ class ImageDiffer
 	    image_diff_respond(:success, params)
 	    puts 'Request complete!'
 	rescue => error
-		puts 'Error: ' + error
+		puts "Error"
+		puts error
 	end
 
 	def self.diff_images(images)
