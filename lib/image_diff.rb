@@ -5,12 +5,14 @@ include ChunkyPNG::Color
 
 class ImageDiffer
 	def self.do_image_diff(params)
+		require 'open-uri'
 		puts params
 	    url_a = params[:url_a]
 	    url_b = params[:url_b]
 	    callback = params[:callback]
 	    puts 'Opening files'
 	    contents_a  = open(url_a) {|f| f.read}
+	    puts 'Opening file b'
 	    contents_b  = open(url_b) {|f| f.read}
 	    puts 'Opened files, turning into PNG objects'
 	    image_a = ChunkyPNG::Image.from_blob(contents_a)
