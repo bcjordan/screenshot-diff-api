@@ -27,8 +27,8 @@ class ImageDiffer
 	        "callback" => callback)
 	    puts 'Sending response'
 	    image_diff_respond(:success, params)
-	rescue
-		puts 'RESCUE: Failed to complete processing'
+	rescue => error
+		puts error
 	end
 
 	def self.diff_images(images)
