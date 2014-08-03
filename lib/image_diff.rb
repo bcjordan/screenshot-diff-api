@@ -28,7 +28,7 @@ class ImageDiffer
 	        "imageData" => encoded_diff,
 	        "diffFound" => diff_found,
 	        "callback" => callback)
-	    puts 'Sending response to ' + params["callback"] + ', diff found: ' + params["diffFound"]
+	    puts 'Sending response to ' + callback + ', diff found: ' + diff_found
 	    image_diff_respond(:success, params)
 	    puts 'Request complete!'
 	rescue => error
