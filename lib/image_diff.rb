@@ -18,8 +18,10 @@ class ImageDiffer
 	    	puts "Output tempfile opened at #{output_file.path}"
 		    Tempfile.open('file_a') do |file_a|
 				puts "Tempfile opened at #{file_a.path}"
+				puts "wget #{url_a} --output-document #{file_a.path}"
 				`wget #{url_a} --output-document #{file_a.path}`
 				Tempfile.open('file_b') do |file_b|
+					puts "wget #{url_b} --output-document #{file_b.path}"
 					`wget #{url_b} --output-document #{file_b.path}`
 					puts "Tempfile opened at #{file_b.path}"
 					compare_options = "-compose difference"

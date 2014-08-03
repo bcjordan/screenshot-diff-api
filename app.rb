@@ -25,6 +25,7 @@ get '/' do
 end
 
 post '/diff' do
+    puts "Queuing diff request with params #{params}"
     QC.enqueue "ImageDiffer.do_image_diff", params
     status 200
     "OK"
