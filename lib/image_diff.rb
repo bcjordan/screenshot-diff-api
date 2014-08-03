@@ -7,6 +7,7 @@ include ChunkyPNG::Color
 class ImageDiffer
 
 	def self.do_image_diff_image_magic(params)
+		puts "Doing image_magic"
 		puts params
 	    url_a = params["url_a"]
 	    url_b = params["url_b"]
@@ -75,12 +76,12 @@ class ImageDiffer
 	end
 
 	def self.do_image_diff(params)
-		success = self.do_image_diff_image_magic(images)
+		success = self.do_image_diff_image_magic(params)
 		if success == :success
 			return
 		else
 			puts "Couldn't diff using compare, using Ruby code instead"
-			self.do_image_diff_ruby(images)
+			self.do_image_diff_ruby(params)
 		end
 	end
 
