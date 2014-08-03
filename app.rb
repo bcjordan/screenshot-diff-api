@@ -25,8 +25,8 @@ get '/' do
 end
 
 post '/diff' do
-    # QC.enqueue "ImageDiffer.do_image_diff", params
-    ImageDiffer.do_image_diff(params)
+    QC.enqueue "ImageDiffer.do_image_diff", params
+    # ImageDiffer.do_image_diff(params)
     status 200
     "OK"
 end
