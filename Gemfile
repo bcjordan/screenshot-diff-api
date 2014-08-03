@@ -9,6 +9,8 @@ gem 'slim'
 gem "puma", "~> 2.0.0.b6"
 gem 'queue_classic'
 gem 'pry'
+gem 'pdiff'
+gem 'ChunkyPNG'
 
 group :development do
   gem 'foreman', require: false

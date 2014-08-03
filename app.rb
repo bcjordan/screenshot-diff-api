@@ -5,6 +5,9 @@ require 'slim'
 
 require "screenshotter"
 require 'queue_classic'
+require 'chunky_png'
+require 'image_diff'
+require 'base64'
 
 configure :development do
   require 'rack/reloader'
@@ -20,7 +23,24 @@ get '/' do
   slim :index
 end
 
-post '/callback' do
+post '/diff' do
+  url_a = params[:url_a]
+  url_b = params[:url_b]
+  callback = params[:callback]
+  contents_a  = open(url_a) {|f| f.read}
+  contents_b  = open(url_b) {|f| f.read}
+  image_a = ChunkyPNG::Image.from_blob(contents_a)
+  image_b = ChunkyPNG::Image.from_blob(contents_b)
+  diff = diff_images(contents)
+  encoded_diff = Base64.encode64(diff)
+  params = {}
+  params.merge!(
+      "imageData" => encoded_diff
+      "callback" => callback)
+  image_diff_respond(:success, params)
+end
+
+post '/puts_callback' do
   data = params[:data]
   puts data
 end

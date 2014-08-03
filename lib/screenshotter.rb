@@ -61,7 +61,7 @@ class Screenshotter
     http.use_ssl          = true if uri.scheme == "https"
     headers               = {'Content-Type' => 'application/json'}
     request               = Net::HTTP::Post.new(uri.request_uri, headers)
-    request["User-Agent"] = "Grabshot (https://github.com/bjeanes/grabshot)"
+    request["User-Agent"] = "grabbalicious"
     request.body          = MultiJson.dump(params)
     http.request(request)
   rescue => e
