@@ -33,7 +33,7 @@ post '/diff' do
   contents_b  = open(url_b) {|f| f.read}
   image_a = ChunkyPNG::Image.from_blob(contents_a)
   image_b = ChunkyPNG::Image.from_blob(contents_b)
-  diff = diff_images(contents)
+  diff = diff_images([contents_a, contents_b])
   encoded_diff = Base64.encode64(diff)
   params = {}
   params.merge!(
