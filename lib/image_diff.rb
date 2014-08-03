@@ -32,14 +32,13 @@ class ImageDiffer
 					if height_a != height_b || width_a != width_b
 						puts `identify #{file_a.path}`
 						puts `identify #{file_b.path}`
-						puts "Need to convert file, running: convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}"
-						convert_res = `convert #{file_a.path} -background black -extent #{width_b}x#{width_a} #{file_a.path}`
+						puts "Need to convert file, running: convert #{file_a.path} -background black -extent #{width_b}x#{height_b} #{file_a.path}"
+						convert_res = `convert #{file_a.path} -background black -extent #{width_b}x#{height_b} #{file_a.path}`
 					end
 
 					puts "Tempfile opened at #{file_b.path}"
 					compare_options = "-dissimilarity-threshold 1"
-				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
-				    compare_output = %x[#{cmd}]
+				    compare_output = `compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}`
 				    puts "Output from compare: #{compare_output}"
 				    if compare_output.include? "image widths or heights differ"
 				    	raise "Images were different sizes, couldn't diff"
