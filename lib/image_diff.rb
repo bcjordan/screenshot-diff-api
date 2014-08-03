@@ -10,7 +10,7 @@ class ImageDiffer
 	    url_a = params[:url_a]
 	    url_b = params[:url_b]
 	    callback = params[:callback]
-	    puts 'Opening files'
+	    puts 'Opening file a'
 	    contents_a  = open(url_a) {|f| f.read}
 	    puts 'Opening file b'
 	    contents_b  = open(url_b) {|f| f.read}
@@ -27,6 +27,8 @@ class ImageDiffer
 	        "callback" => callback)
 	    puts 'Sending response'
 	    image_diff_respond(:success, params)
+	rescue
+		puts 'RESCUE: Failed to complete processing'
 	end
 
 	def self.diff_images(images)
