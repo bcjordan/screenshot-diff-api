@@ -5,7 +5,7 @@ userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (
 url = system.args[1]
 format = (system.args[2] or "PNG").toUpperCase()
 width = parseInt(system.args[3]) or 1280
-height = parseInt(system.args[4]) or null # default: fit content
+height = null #parseInt(system.args[4]) or null # default: fit content
 crop = true
 
 setTimeout ->
