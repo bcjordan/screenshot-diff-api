@@ -25,21 +25,22 @@ get '/' do
 end
 
 post '/diff' do
-  puts params
-  url_a = params[:url_a]
-  url_b = params[:url_b]
-  callback = params[:callback]
-  contents_a  = open(url_a) {|f| f.read}
-  contents_b  = open(url_b) {|f| f.read}
-  image_a = ChunkyPNG::Image.from_blob(contents_a)
-  image_b = ChunkyPNG::Image.from_blob(contents_b)
-  diff = diff_images([image_a, image_b])
-  encoded_diff = Base64.encode64(diff)
-  params = {}
-  params.merge!(
-      "imageData" => encoded_diff,
-      "callback" => callback)
-  image_diff_respond(:success, params)
+  begin
+    puts params
+    url_a = params[:url_a]
+    url_b = params[:url_b]
+    callback = params[:callback]
+    contents_a  = open(url_a) {|f| f.read}
+    contents_b  = open(url_b) {|f| f.read}
+    image_a = ChunkyPNG::Image.from_blob(contents_a)
+    image_b = ChunkyPNG::Image.from_blob(contents_b)
+    diff = diff_images([image_a, image_b])
+    encoded_diff = Base64.encode64(diff)
+    params = {}
+    params.merge!(
+        "imageData" => encoded_diff,
+        "callback" => callback)
+    image_diff_respond(:success, params)
 end
 
 post '/puts_callback' do

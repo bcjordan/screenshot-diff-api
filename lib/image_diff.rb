@@ -2,13 +2,14 @@ require 'chunky_png'
 include ChunkyPNG::Color
 
 def diff_images(images)
+	
 	images.first.height.times do |y|
 		images.first.row(y).each_with_index do |pixel, x|
-		images.last[x,y] = rgb(
-			r(pixel) + r(images.last[x,y]) - 2 * [r(pixel), r(images.last[x,y])].min,
-			g(pixel) + g(images.last[x,y]) - 2 * [g(pixel), g(images.last[x,y])].min,
-			b(pixel) + b(images.last[x,y]) - 2 * [b(pixel), b(images.last[x,y])].min
-		)
+			images.last[x,y] = rgb(
+				r(pixel) + r(images.last[x,y]) - 2 * [r(pixel), r(images.last[x,y])].min,
+				g(pixel) + g(images.last[x,y]) - 2 * [g(pixel), g(images.last[x,y])].min,
+				b(pixel) + b(images.last[x,y]) - 2 * [b(pixel), b(images.last[x,y])].min
+			)
 		end
 	end
 	return images.last.to_blob
@@ -34,6 +35,6 @@ rescue => e
 	if params[:status] == :success
 		params[:error] = e.class.name
 		params.delete(:imageData)
-		respond(:error, params)
+		image_diff_respond(:error, params)
 	end
 end
