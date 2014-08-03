@@ -1,4 +1,6 @@
 require 'chunky_png'
+require 'base64'
+require 'open-uri'
 include ChunkyPNG::Color
 
 class ImageDiffer
