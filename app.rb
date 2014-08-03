@@ -20,6 +20,11 @@ get '/' do
   slim :index
 end
 
+post '/callback' do
+  data = params[:data]
+  puts data
+end
+
 post '/snap' do
   url      = params[:url]
   callback = params[:callback]
