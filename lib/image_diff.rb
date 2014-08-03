@@ -21,7 +21,7 @@ class ImageDiffer
 					`wget #{url_b} --output-document #{file_b.path}`
 					puts "Tempfile opened at #{file_b.path}"
 					compare_options = "-compose difference"
-				    cmd = "compare #{file_a} #{file_b} #{compare_options} #{output_file}"
+				    cmd = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
 				    compare_output = %x[#{cmd}]
 				    md5_a_res = %x["md5sum #{file_a}"]
 				    md5_b_res = %x["md5sum #{file_b}"]
