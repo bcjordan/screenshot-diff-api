@@ -8,6 +8,7 @@ STDERR.sync = true
 
 # For worker...
 autoload :Screenshotter, "screenshotter"
+autoload :ImageDiffer, "image_diff"
 
 desc "Like qc:work except forks COUNT (default 3) workers"
 task :multi_work, [:COUNT] do |_, args|
