@@ -28,11 +28,11 @@ class ImageDiffer
 	        "imageData" => encoded_diff,
 	        "diffFound" => diff_found,
 	        "callback" => callback)
-	    puts 'Sending response: ' + params
+	    puts 'Sending response to ' + params["callback"] + ', diff found: ' + params["diffFound"]
 	    image_diff_respond(:success, params)
 	    puts 'Request complete!'
 	rescue => error
-		puts error
+		puts 'Error: ' + error
 	end
 
 	def self.diff_images(images)
