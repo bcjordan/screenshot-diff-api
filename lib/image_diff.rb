@@ -3,10 +3,10 @@ require 'base64'
 require 'open-uri'
 require 'tempfile'
 require 'fileutils'
+require 'net/http'
 include ChunkyPNG::Color
 
 class ImageDiffer
-
 	def self.do_image_diff_image_magic(params)
 		puts "Doing image_magic"
 		puts params
