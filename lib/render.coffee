@@ -85,6 +85,6 @@ phantom.onError = (msg, trace) ->
 
 page.onLoadFinished = (status) ->
   loaded = page.evaluate -> !!document.body
-  setTimeout render, 300  if status is "success" or loaded is true
+  setTimeout render, 5000  if status is "success" or loaded is true
 
 page.open url
