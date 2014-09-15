@@ -23,7 +23,7 @@ class ImageDiffer
 				Tempfile.open('file_b') do |file_b|
 					puts "wget #{url_b} --output-document #{file_b.path}"
 					`wget #{url_b} --output-document #{file_b.path}`
-					
+
 					width_a = `identify -format '%w' #{file_a.path}`.strip
 					height_a = `identify -format '%h' #{file_a.path}`.strip
 					width_b = `identify -format '%w' #{file_b.path}`.strip
@@ -37,8 +37,10 @@ class ImageDiffer
 					end
 
 					puts "Tempfile opened at #{file_b.path}"
-					compare_options = "-dissimilarity-threshold 1"
-				    compare_output = `compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}`
+					compare_options = "-metric PAE"
+          compare_command = "compare #{file_a.path} #{file_b.path} #{compare_options} #{output_file.path}"
+          puts "Running compare command: #{compare_command}"
+          compare_output = `#{compare_command}`
 				    puts "Output from compare: #{compare_output}"
 				    if compare_output.include? "image widths or heights differ"
 				    	raise "Images were different sizes, couldn't diff"
